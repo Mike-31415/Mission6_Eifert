@@ -1,0 +1,64 @@
+@{
+    ViewData["Title"] = "Movie List";
+}
+
+@model IEnumerable<Movie>
+
+<div class="container-fluid px-3 mt-4">
+    <h2 class="mb-4 text-center">Movie Collection</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover align-middle shadow-sm">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Category</th>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Rating</th>
+                    <th>Edited</th>
+                    <th>Lent To</th>
+                    <th>Copied</th>
+                    <th>Notes</th>
+                    <th style="width:150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var movie in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@movie.Title</td>
+                        <td>@(movie.Category?.CategoryName ?? "N/A")</td>
+                        <td>@movie.Year</td>
+                        <td>@(movie.Director ?? "-")</td>
+                        <td>@(movie.Rating ?? "-")</td>
+                        <td class="text-center">
+                            @(movie.Edited ? "✔️" : "—")
+                        </td>
+                        <td>@(movie.LentTo ?? "-")</td>
+                        <td class="text-center">
+                            @(movie.CopiedToPlex ? "✔️" : "—")
+                        </td>
+                        <td>@(movie.Notes ?? "-")</td>
+
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a asp-action="Edit"
+                                   asp-route-id="@movie.MovieId"
+                                   class="btn btn-sm btn-warning">
+                                    Update
+                                </a>
+                                <form asp-action="Delete" method="get">
+                                    <input type="hidden" name="id" value="@movie.MovieId" />
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

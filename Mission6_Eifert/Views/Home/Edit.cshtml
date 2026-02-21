@@ -1,0 +1,103 @@
+@model Mission6_Eifert.Models.Movie
+
+@{
+    ViewData["Title"] = "Edit Movie";
+}
+
+<div class="container mt-4">
+    <h2>Edit Movie</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="MovieId" />
+
+        <!-- Title -->
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" required />
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="form-label">Category</label>
+            <select asp-for="CategoryId" class="form-select">
+                <!option value="" disabled @(Model.CategoryId == 0 ? "selected" : "")>Select</!option>
+                @foreach (var category in ViewBag.Categories)
+                {
+                    <!option value="@category.CategoryId" @(category.CategoryId == Model.CategoryId ? "selected" : "")>
+                        @category.CategoryName
+                    </!option>
+                }
+            </select>
+        </div>
+
+        <!-- Year -->
+        <div class="mb-3">
+            <label asp-for="Year" class="form-label"></label>
+            <input asp-for="Year"
+                   type="number"
+                   min="1888"
+                   max="@DateTime.Now.Year"
+                   class="form-control"
+                   required />
+        </div>
+
+        <!-- Director -->
+        <div class="mb-3">
+            <label asp-for="Director" class="form-label"></label>
+            <input asp-for="Director" class="form-control" />
+        </div>
+
+        <!-- Rating -->
+        <div class="mb-3">
+            <label asp-for="Rating" class="form-label"></label>
+            <select asp-for="Rating" class="form-select">
+                <!option value="" disabled @(string.IsNullOrEmpty(Model.Rating) ? "selected" : "")>Select</!option>
+                <!option value="G" @(Model.Rating=="G" ? "selected" : "")>G</!option>
+                <!option value="NR" @(Model.Rating=="NR" ? "selected" : "")>NR</!option>
+                <!option value="PG" @(Model.Rating=="PG" ? "selected" : "")>PG</!option>
+                <!option value="PG-13" @(Model.Rating=="PG-13" ? "selected" : "")>PG-13</!option>
+                <!option value="R" @(Model.Rating=="R" ? "selected" : "")>R</!option>
+                <!option value="TV-14" @(Model.Rating=="TV-14" ? "selected" : "")>TV-14</!option>
+                <!option value="TV-G" @(Model.Rating=="TV-G" ? "selected" : "")>TV-G</!option>
+                <!option value="TV-PG" @(Model.Rating=="TV-PG" ? "selected" : "")>TV-PG</!option>
+                <!option value="TV-Y7" @(Model.Rating=="TV-Y7" ? "selected" : "")>TV-Y7</!option>
+                <!option value="UR" @(Model.Rating=="UR" ? "selected" : "")>UR</!option>
+            </select>
+        </div>
+
+        <!-- Edited -->
+        <div class="mb-3">
+            <label asp-for="Edited" class="form-label"></label>
+            <select asp-for="Edited" class="form-select" required>
+                <!option value="" disabled @(Model.Edited == null ? "selected" : "")>Select</!option>
+                <!option value="true" @(Model.Edited ? "selected" : "")>Yes</!option>
+                <!option value="false" @(!Model.Edited ? "selected" : "")>No</!option>
+            </select>
+        </div>
+
+        <!-- CopiedToPlex -->
+        <div class="mb-3">
+            <label asp-for="CopiedToPlex" class="form-label"></label>
+            <select asp-for="CopiedToPlex" class="form-select" required>
+                <!option value="" disabled @(Model.CopiedToPlex == null ? "selected" : "")>Select</!option>
+                <!option value="true" @(Model.CopiedToPlex ? "selected" : "")>Yes</!option>
+                <!option value="false" @(!Model.CopiedToPlex ? "selected" : "")>No</!option>
+            </select>
+        </div>
+
+        <!-- LentTo -->
+        <div class="mb-3">
+            <label asp-for="LentTo" class="form-label"></label>
+            <input asp-for="LentTo" class="form-control" />
+        </div>
+
+        <!-- Notes -->
+        <div class="mb-3">
+            <label asp-for="Notes" class="form-label"></label>
+            <input asp-for="Notes" class="form-control" maxlength="25" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="MovieList" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
